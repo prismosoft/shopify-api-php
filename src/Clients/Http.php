@@ -167,7 +167,7 @@ class Http
         ?int $tries = null,
         string $dataType = self::DATA_TYPE_JSON
     ) {
-        $maxTries = $tries ?? 1;
+        $maxTries = $tries ?? 10;
 
         $version = require dirname(__FILE__) . '/../version.php';
         $userAgentParts = ["Shopify Admin API Library for PHP v$version"];
@@ -208,6 +208,7 @@ class Http
                 ->withHeader(HttpHeaders::CONTENT_LENGTH, mb_strlen($bodyString));
         }
 
+        // CUSTOM CODE
         $currentTries = 0;
         do {
             $currentTries++;
@@ -224,6 +225,7 @@ class Http
                 break;
             }
         } while ($currentTries < $maxTries);
+        // END CUSTOM CODE
 
         if ($response->hasHeader(HttpHeaders::X_SHOPIFY_API_DEPRECATED_REASON)) {
             $this->logApiDeprecation(

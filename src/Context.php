@@ -80,9 +80,9 @@ class Context
         string $apiVersion = ApiVersion::LATEST,
         bool $isEmbeddedApp = true,
         bool $isPrivateApp = false,
-        string $privateAppStorefrontAccessToken = null,
+        ?string $privateAppStorefrontAccessToken = null,
         string $userAgentPrefix = '',
-        LoggerInterface $logger = null,
+        ?LoggerInterface $logger = null,
         array $customShopDomains = []
     ): void {
         $authScopes = new Scopes($scopes);
@@ -106,10 +106,6 @@ class Context
             throw new MissingArgumentException(
                 "Cannot initialize Shopify API Library. Missing values for: $missing"
             );
-        }
-
-        if (!ApiVersion::isValid($apiVersion)) {
-            throw new InvalidArgumentException("Invalid API version: $apiVersion");
         }
 
         if (!preg_match("/http(s)?:\/\//", $hostName)) {
